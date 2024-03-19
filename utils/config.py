@@ -11,9 +11,9 @@ for gpu in gpus:
   tf.config.experimental.set_memory_growth(gpu, True)
 # Data Directories
 
-BASE_DIR = '/content/icme2023/'
+BASE_DIR = '/content/icmr2024/'
 DATA_DIR = os.environ['INPUT_FOLDER'] 
-TARGET_DIR = "/content/icme2023/"
+TARGET_DIR = "/content/icmr2024/"
 
 # Word Embeddings
 embedding_length = 300

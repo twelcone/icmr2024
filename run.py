@@ -4,6 +4,8 @@ import cv2
 import os
 import random
 import torch
+import time
+import csv
 from PIL import Image
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -181,31 +183,81 @@ if __name__ == "__main__":
     """ Main function to compute out-of-context detection accuracy"""
 
     test_samples = read_json_data(os.path.join(DATA_DIR, 'test.json'))
+
     cosmos_correct = 0
     ours_correct = 0
     lang_correct = 0
-    cnt_50 = 0
 
-    for i, v_data in tqdm(enumerate(test_samples)):
-        actual_context = int(v_data['context_label'])
-        language_context = 0 if float(v_data['bert_base_score']) >= textual_sim_threshold else 1
-        pred_context_cosmos, pred_context_ours = evaluate_context_with_bbox_overlap(v_data)
+    true_positive = 0
+    false_positive = 0
+    true_negative = 0
+    false_negative = 0
 
-        if pred_context_ours == actual_context:
-            ours_correct += 1
-        if pred_context_cosmos == actual_context:
-            cosmos_correct += 1
+    total_time = 0
 
-        if language_context == actual_context:
-            lang_correct += 1
+    if not os.path.isdir('output'): os.makedirs("output")
 
-        cnt_50 += 1
+    with open('output/log.csv', 'w') as f:
+        for i, v_data in tqdm(enumerate(test_samples)):
+            actual_context = int(v_data['context_label'])
+            language_context = 0 if float(v_data['bert_base_score']) >= textual_sim_threshold else 1
+            pred_context_cosmos, pred_context_ours = evaluate_context_with_bbox_overlap(v_data)
+            start_time = time.time()
 
-        print(f"Image: {v_data['img_local_path']}")
-        print(f"Actual Context Label: {actual_context}")
-        print(f"Predicted Context Label (Ours): {pred_context_ours}")
-        print(f"Predicted Context Label (Cosmos): {pred_context_cosmos}")
-        print("-------------------")
+            if pred_context_ours == actual_context:
+                ours_correct += 1
+            if pred_context_cosmos == actual_context:
+                cosmos_correct += 1
 
-    print("Accuracy COSMOS", cosmos_correct / len(test_samples))
-    print("Accuracy OURS:", ours_correct / len(test_samples))
+            if language_context == actual_context:
+                lang_correct += 1
+
+            if actual_context == 1:
+                if pred_context_ours == 1:
+                    true_positive += 1
+                else:
+                    false_positive += 1
+            else:
+                if pred_context_ours == 0:
+                    true_negative += 1
+                else:
+                    false_negative += 1
+
+            end_time = time.time()
+
+            time_run = start_time - end_time
+
+            print(f"Image: {v_data['img_local_path']}")
+            print(f"Actual Context Label: {actual_context}")
+            print(f"Predicted Context Label (Ours): {pred_context_ours}")
+            print(f"Inference Time (Ours): {time_run}")
+            # print(f"Predicted Context Label (Cosmos): {pred_context_cosmos}")
+            print("-------------------")
+
+            # with open('output.txt', 'a') as f:
+            f.write('img_path, actual_context, our_predicted_context, inference_time\n')
+            f.write(f'{v_data['img_local_path']}, {actual_context}, {pred_context_ours}, {time_run}\n')
+            # f.write(f'Predicted Time: {time_run}\n')
+            # f.write('\n')
+
+            total_time += time_run
+
+        # print("Accuracy COSMOS", cosmos_correct / len(test_samples))
+        accuracy_ours = ours_correct / len(test_samples)
+        print("Accuracy OURS:", accuracy_ours)
+
+        p_ooc = true_positive / (true_positive + false_positive)
+        p_nooc = true_negative / (true_negative + false_negative)
+        average_precision = (p_ooc + p_nooc) / 2
+        print("Average Precision OURS:", average_precision)
+
+        precision = true_positive / (true_positive + false_positive)
+        recall = true_positive / (true_positive + false_negative)
+        f1_score = (2 * precision * recall) / (precision + recall)
+        print("F1-Score OURS:", f1_score)
+
+    with open('output.txt', 'a') as f:
+        f.write(f'Accuracy OURS: {accuracy_ours}\n')
+        f.write(f'Average Precision OURS: {average_precision}\n')
+        f.write(f'F1-Score OURS: {f1_score}\n')
+        f.write(f'Total Time OURS: {total_time}\n')
