@@ -15,6 +15,10 @@ BASE_DIR = '/content/icmr2024/'
 DATA_DIR = os.environ['INPUT_FOLDER'] 
 TARGET_DIR = "/content/icmr2024/"
 
+OUTPUT_DIR = "/content/icmr2024/output"
+if 'OUTPUT_FOLDER' in os.environ:
+  OUTPUT_DIR = os.environ['OUTPUT_FOLDER']
+
 # Word Embeddings
 embedding_length = 300
 embed_type = 'use'  # glove, fasttext, use
