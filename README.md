@@ -51,7 +51,7 @@ $$ \text{accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
 
 $$\text{AP} = \sum_n (R_n - R_{n-1}) P_n$$
 
-*where $P_n$ and $R_n$ are the precision and recall at the nth threshold*.
+where $P_n$ and $R_n$ are the precision and recall at the nth threshold.
 
 * **F1-score** can be interpreted as a harmonic mean of the precision and recall, where an F1 score reaches its best value at 1 and worst score at 0. The relative contribution of precision and recall to the F1 score are equal. The formula for the F1-score is:
 
