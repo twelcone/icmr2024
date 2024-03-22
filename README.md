@@ -29,7 +29,7 @@ Please refer [`icmr2024_cheapfakes_challenge.ipynb`](icmr2024_cheapfake_challeng
 
 # Experimental Result
 ## Dataset
-In our experiment, we use the original dataset taken from the ICMR 202T Grand Challenge on Detecting Cheapfakes with 1000 samples in public test set. Each of which consisted of an image and two captions as inputs, along with the corresponding OOC (labeled as 1) or NOOC (labeled as 0) labels.
+In our experiment, we use the original dataset taken from the ICMR 2024 Grand Challenge on Detecting Cheapfakes with 1000 samples in public test set. Each of which consisted of an image and two captions as inputs, along with the corresponding OOC (labeled as 1) or NOOC (labeled as 0) labels.
 
 ## Metrics
 ### Effectiveness
