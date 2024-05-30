@@ -1,11 +1,11 @@
 # ACM ICMR 2024 - Grand Challenge on Detecting Cheapfakes Source Code
 
 # Authors
-| No. | Author                       | Email | ORCID |
-|-----|------------------------------|-------|-------|
-| 1   | Dang Vu<sup>*</sup>          | 23c15023@student.hcmus.edu.vn | 0009-0003-3268-024X |
-| 2   | Quoc-Trun Nguyen<sup>*</sup> | 21120107@student.hcmus.edu.vn | 0009-0008-3746-389X |
-| 3   | Minh-Nhat Nguyen<sup>*</sup> | 21120350@student.hcmus.edu.vn | 0009-0001-5959-6107 |
+| No. | Author                        | Email | ORCID |
+|-----|-------------------------------|-------|-------|
+| 1   | Dang Vu<sup>*</sup>           | 23c15023@student.hcmus.edu.vn | 0009-0003-3268-024X |
+| 2   | Quoc-Trung Nguyen<sup>*</sup> | 21120107@student.hcmus.edu.vn | 0009-0008-3746-389X |
+| 3   | Minh-Nhat Nguyen<sup>*</sup>  | 21120350@student.hcmus.edu.vn | 0009-0001-5959-6107 |
 
 (*<sup>*</sup>* All authors contributed equally to this research.)
 
